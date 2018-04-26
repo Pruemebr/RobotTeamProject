@@ -1,6 +1,6 @@
 """
 Functions for SPINNING the robot LEFT and RIGHT.
-Authors: David Fisher, David Mutchler and PUT_YOUR_NAME_HERE.
+Authors: David Fisher, David Mutchler and Zikang Zhang.
 """  # TODO: 1. PUT YOUR NAME IN THE ABOVE LINE.
 
 # TODO: 2. Implment spin_left_seconds, then the relevant part of the test function.
@@ -28,6 +28,7 @@ def test_spin_left_spin_right():
       3. Same as #2, but runs spin_left_by_encoders.
       4. Same as #1, 2, 3, but tests the spin_right functions.
     """
+    spin_left_seconds(5, 50, 'coast')
 
 
 def spin_left_seconds(seconds, speed, stop_action):
@@ -36,6 +37,19 @@ def spin_left_seconds(seconds, speed, stop_action):
     where speed is between -100 (full speed spin_right) and 100 (full speed spin_left).
     Uses the given stop_action.
     """
+    # Connect two large motors on output ports B and C
+    left_motor = ev3.LargeMotor(ev3.OUTPUT_B)
+    right_motor = ev3.LargeMotor(ev3.OUTPUT_C)
+
+    # Check that the motors are actually connected
+    assert left_motor.connected
+    assert right_motor.connected
+
+    left_motor.run_forever(speed_sp=-speed * 8, stop_action=stop_action)
+    right_motor.run_forever(speed_sp=speed * 8, stop_action=stop_action)
+    time.sleep(seconds)
+    left_motor.stop()
+    right_motor.stop()
 
 
 def spin_left_by_time(degrees, speed, stop_action):
