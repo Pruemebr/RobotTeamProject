@@ -1,7 +1,7 @@
 """
 Functions for TURNING the robot LEFT and RIGHT.
-Authors: David Fisher, David Mutchler and PUT_YOUR_NAME_HERE.
-"""  # TODO: 1. PUT YOUR NAME IN THE ABOVE LINE.
+Authors: David Fisher, David Mutchler and Lilin Chen.
+"""  # DONE: 1. PUT YOUR NAME IN THE ABOVE LINE.
 
 # TODO: 2. Implment turn_left_seconds, then the relevant part of the test function.
 #          Test and correct as needed.
@@ -35,6 +35,14 @@ def turn_left_seconds(seconds, speed, stop_action):
     where speed is between -100 (full speed turn_right) and 100 (full speed turn_left).
     Uses the given stop_action.
     """
+
+    left_motor = ev3.LargeMotor(ev3.OUTPUT_B)
+    right_motor = ev3.LargeMotor(ev3.OUTPUT_C)
+
+    assert left_motor.connected
+    assert right_motor.connected
+
+    
 
 
 def turn_left_by_time(degrees, speed, stop_action):
