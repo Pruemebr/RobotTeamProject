@@ -1,7 +1,7 @@
 """
 Functions for SPINNING the robot LEFT and RIGHT.
 Authors: David Fisher, David Mutchler and Zikang Zhang.
-"""  # TODO: 1. PUT YOUR NAME IN THE ABOVE LINE.
+"""  # DONE: 1. PUT YOUR NAME IN THE ABOVE LINE.
 
 # TODO: 2. Implment spin_left_seconds, then the relevant part of the test function.
 #          Test and correct as needed.
@@ -45,8 +45,8 @@ def spin_left_seconds(seconds, speed, stop_action):
     assert left_motor.connected
     assert right_motor.connected
 
-    left_motor.run_forever(speed_sp=-speed * 8, stop_action=stop_action)
-    right_motor.run_forever(speed_sp=speed * 8, stop_action=stop_action)
+    left_motor.run_forever(speed_sp=-speed*8, stop_action=stop_action)
+    right_motor.run_forever(speed_sp=speed*8, stop_action=stop_action)
     time.sleep(seconds)
     left_motor.stop()
     right_motor.stop()
@@ -76,6 +76,7 @@ def spin_left_by_encoders(degrees, speed, stop_action):
 
 def spin_right_seconds(seconds, speed, stop_action):
     """ Calls spin_left_seconds with negative speeds to achieve spin_right motion. """
+    spin_left_seconds(seconds, -speed, stop_action)
 
 
 def spin_right_by_time(degrees, speed, stop_action):
