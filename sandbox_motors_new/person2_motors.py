@@ -1,7 +1,7 @@
 """
 Functions for SPINNING the robot LEFT and RIGHT.
-Authors: David Fisher, David Mutchler and PUT_YOUR_NAME_HERE.
-"""  # TODO: 1. PUT YOUR NAME IN THE ABOVE LINE.
+Authors: David Fisher, David Mutchler and Zikang Zhang.
+"""  # DONE: 1. PUT YOUR NAME IN THE ABOVE LINE.
 
 # TODO: 2. Implment spin_left_seconds, then the relevant part of the test function.
 #          Test and correct as needed.
@@ -28,7 +28,9 @@ def test_spin_left_spin_right():
       3. Same as #2, but runs spin_left_by_encoders.
       4. Same as #1, 2, 3, but tests the spin_right functions.
     """
-
+    #spin_left_seconds(5.0, 50, 'brake')
+    #spin_right_seconds(5.0, 50, 'brake')
+    spin_left_by_time(720, 50, 'coast')
 
 def spin_left_seconds(seconds, speed, stop_action):
     """
@@ -36,6 +38,19 @@ def spin_left_seconds(seconds, speed, stop_action):
     where speed is between -100 (full speed spin_right) and 100 (full speed spin_left).
     Uses the given stop_action.
     """
+    # Connect two large motors on output ports B and C
+    left_motor = ev3.LargeMotor(ev3.OUTPUT_B)
+    right_motor = ev3.LargeMotor(ev3.OUTPUT_C)
+
+    # Check that the motors are actually connected
+    assert left_motor.connected
+    assert right_motor.connected
+
+    left_motor.run_forever(speed_sp=speed*8, stop_action=stop_action)
+    right_motor.run_forever(speed_sp=-speed*8, stop_action=stop_action)
+    time.sleep(seconds)
+    left_motor.stop()
+    right_motor.stop()
 
 
 def spin_left_by_time(degrees, speed, stop_action):
@@ -48,6 +63,20 @@ def spin_left_by_time(degrees, speed, stop_action):
       2. Sleep for the computed number of seconds.
       3. Stop moving.
     """
+    # Connect two large motors on output ports B and C
+    left_motor = ev3.LargeMotor(ev3.OUTPUT_B)
+    right_motor = ev3.LargeMotor(ev3.OUTPUT_C)
+
+    # Check that the motors are actually connected
+    assert left_motor.connected
+    assert right_motor.connected
+
+    seconds = degrees / 360 * 6.8 * 3.1415 / (speed * 8 * 4.1 / 360)
+    left_motor.run_forever(speed_sp=speed*8, stop_action=stop_action)
+    right_motor.run_forever(speed_sp=-speed*8, stop_action=stop_action)
+    time.sleep(seconds)
+    left_motor.stop()
+    right_motor.stop()
 
 
 def spin_left_by_encoders(degrees, speed, stop_action):
@@ -58,18 +87,31 @@ def spin_left_by_encoders(degrees, speed, stop_action):
       1. Compute the number of degrees the wheels should spin to achieve the desired distance.
       2. Move until the computed number of degrees is reached.
     """
+    # Connect two large motors on output ports B and C
+    left_motor = ev3.LargeMotor(ev3.OUTPUT_B)
+    right_motor = ev3.LargeMotor(ev3.OUTPUT_C)
 
+    # Check that the motors are actually connected
+    assert left_motor.connected
+    assert right_motor.connected
+
+    deg = degrees / (speed * 8)
+    left_motor.run_to_rel_pos(position_sp=deg, speed_sp=speed)
+    right_motor.run_to_rel_pos(position_sp=-deg, speed_sp=-speed)
 
 def spin_right_seconds(seconds, speed, stop_action):
     """ Calls spin_left_seconds with negative speeds to achieve spin_right motion. """
+    spin_left_seconds(seconds, -speed, stop_action)
 
 
 def spin_right_by_time(degrees, speed, stop_action):
     """ Calls spin_left_by_time with negative speeds to achieve spin_right motion. """
+    spin_left_by_time(degrees, -speed, stop_action)
 
 
 def spin_right_by_encoders(degrees, speed, stop_action):
     """ Calls spin_left_by_encoders with negative speeds to achieve spin_right motion. """
+    spin_left_by_encoders(degrees, -speed, stop_action)
 
 
 test_spin_left_spin_right()
