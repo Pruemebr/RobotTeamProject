@@ -111,7 +111,7 @@ def turn_left_by_encoders(degrees, speed, stop_action):
     assert right_motor.connected
 
     distance = (degrees / 360) * 2 * math.pi * 5.75
-    wheel_degrees = (distance/(2*math.pi*0.75))*360
+    wheel_degrees = (distance / (2 * math.pi * 0.75)) * 360
     left_motor.run_to_rel_pos(position_sp = wheel_degrees, speed_sp = speed)
     left_motor.wait_while(ev3.Motor.STATE_RUNNING)
     left_motor.stop_action = stop_action
