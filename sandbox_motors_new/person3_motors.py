@@ -11,6 +11,7 @@ Authors: David Fisher, David Mutchler and Lilin Chen.
 
 import ev3dev.ev3 as ev3
 import time
+import math
 
 
 def test_turn_left_turn_right():
@@ -85,7 +86,9 @@ def turn_left_by_time(degrees, speed, stop_action):
     assert left_motor.connected
     assert right_motor.connected
 
-    seconds = degrees / speed
+    distance = (degrees / 360) * 2 * math.pi * 5.75
+    in_speed = speed * 4 / 360
+    seconds = distance / in_speed
     right_motor.stop_action = stop_action
     right_motor.run_forever(speed_sp = speed)
     time.sleep(seconds)
