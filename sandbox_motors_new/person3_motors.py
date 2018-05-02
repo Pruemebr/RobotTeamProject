@@ -89,10 +89,10 @@ def turn_left_by_time(degrees, speed, stop_action):
     distance = (degrees / 360) * 2 * math.pi * 5.75
     in_speed = speed * 4 / 360
     seconds = distance / in_speed
-    right_motor.stop_action = stop_action
-    right_motor.run_forever(speed_sp = speed)
+    left_motor.stop_action = stop_action
+    left_motor.run_forever(speed_sp = speed)
     time.sleep(seconds)
-    right_motor.stop()
+    left_motor.stop()
 
 
 def turn_left_by_encoders(degrees, speed, stop_action):
@@ -110,9 +110,9 @@ def turn_left_by_encoders(degrees, speed, stop_action):
     assert left_motor.connected
     assert right_motor.connected
 
-    right_motor.run_to_rel_pos(position_sp = degrees, speed_sp = speed)
-    right_motor.wait_while(ev3.Motor.STATE_RUNNING)
-    right_motor.stop_action = stop_action
+    left_motor.run_to_rel_pos(position_sp = degrees, speed_sp = speed)
+    left_motor.wait_while(ev3.Motor.STATE_RUNNING)
+    left_motor.stop_action = stop_action
 
 
 def turn_right_seconds(seconds, speed, stop_action):
@@ -137,11 +137,13 @@ def turn_right_by_time(degrees, speed, stop_action):
     assert left_motor.connected
     assert right_motor.connected
 
-    seconds = degrees / -speed
-    left_motor.stop_action = stop_action
-    left_motor.run_forever(speed_sp=-speed)
+    distance = (degrees / 360) * 2 * math.pi * 5.75
+    in_speed = -speed * 4 / 360
+    seconds = distance / in_speed
+    right_motor.stop_action = stop_action
+    right_motor.run_forever(speed_sp = -speed)
     time.sleep(seconds)
-    left_motor.stop()
+    right_motor.stop()
 
 
 def turn_right_by_encoders(degrees, speed, stop_action):
@@ -153,9 +155,9 @@ def turn_right_by_encoders(degrees, speed, stop_action):
     assert left_motor.connected
     assert right_motor.connected
 
-    left_motor.run_to_rel_pos(position_sp=degrees, speed_sp=-speed)
-    left_motor.wait_while(ev3.Motor.STATE_RUNNING)
-    left_motor.stop_action = stop_action
+    right_motor.run_to_rel_pos(position_sp=degrees, speed_sp=-speed)
+    right_motor.wait_while(ev3.Motor.STATE_RUNNING)
+    right_motor.stop_action = stop_action
 
 
 test_turn_left_turn_right()
