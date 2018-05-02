@@ -31,38 +31,24 @@ def test_turn_left_turn_right():
     # Test Turn seconds
     while True:
         seconds_to_travel = int(input('Seconds to travel:'))
-        speed_to_travel = int(input('Speed to travel:'))
-        stop_action = input('Stop action:') #type?
-        if speed_to_travel > 0:
-            robot.turn_left_seconds(seconds_to_travel, speed_to_travel, stop_action)
-        if speed_to_travel < 0:
-            robot.turn_right_seconds(seconds_to_travel, speed_to_travel, stop_action)
         if seconds_to_travel == 0:
             break
-
-    # Test Turn by time
-    while True:
-        degree_to_travel = int(input('Degree to travel:'))
         speed_to_travel = int(input('Speed to travel:'))
-        stop_action = input('Stop action:') #type?
+        stop_action = str(input('Stop action:'))
         if speed_to_travel > 0:
-            robot.turn_left_by_time(degree_to_travel, speed_to_travel, stop_action)
+            turn_left_seconds(seconds_to_travel, speed_to_travel, stop_action)
         if speed_to_travel < 0:
-            robot.turn_right_by_time(degree_to_travel, speed_to_travel, stop_action)
-        if degree_to_travel == 0:
-            break
+            turn_right_seconds(seconds_to_travel, speed_to_travel, stop_action)
 
-    # Test Turn by encoders
-    while True:
-        degree_to_travel = int(input('Degree to travel:'))
-        speed_to_travel = int(input('Speed to travel:'))
-        stop_action = input('Stop action:') #type?
-        if speed_to_travel > 0:
-            robot.turn_left_by_time(degree_to_travel, speed_to_travel, stop_action)
-        if speed_to_travel < 0:
-            robot.turn_right_by_time(degree_to_travel, speed_to_travel, stop_action)
-        if degree_to_travel == 0:
-            break
+    degrees_to_travel = int(input('Degree to travel:'))
+    speed_to_travel = int(input('Speed to travel:'))
+    stop_action = str(input('Stop action:'))
+    if speed_to_travel > 0:
+        turn_left_by_time(degrees_to_travel, speed_to_travel, stop_action)
+        # turn_left_by_encoders(degrees_to_travel, speed_to_travel, stop_action)
+    if speed_to_travel < 0:
+        turn_right_by_time(degrees_to_travel, speed_to_travel, stop_action)
+        # turn_right_by_encoders(degrees_to_travel, speed_to_travel, stop_action)
 
 
 def turn_left_seconds(seconds, speed, stop_action):
@@ -78,8 +64,8 @@ def turn_left_seconds(seconds, speed, stop_action):
     assert left_motor.connected
     assert right_motor.connected
 
-    left_motor.run_timed(speed_sp = 0, time_sp = 0, stop_action = stop_action)
-    right_motor.run_timed(speed_sp = speed, time_sp = seconds, stop_action = stop_action)
+    left_motor.run_timed(speed_sp = speed, time_sp = 1000 * seconds, stop_action = stop_action)
+    right_motor.run_timed(speed_sp = 0, time_sp = 0, stop_action = stop_action)
 
 
 def turn_left_by_time(degrees, speed, stop_action):
@@ -125,6 +111,7 @@ def turn_left_by_encoders(degrees, speed, stop_action):
     right_motor.wait_while(ev3.Motor.STATE_RUNNING)
     right_motor.stop_action = stop_action
 
+
 def turn_right_seconds(seconds, speed, stop_action):
     """ Calls turn_left_seconds with negative speeds to achieve turn_right motion. """
 
@@ -134,8 +121,8 @@ def turn_right_seconds(seconds, speed, stop_action):
     assert left_motor.connected
     assert right_motor.connected
 
-    left_motor.run_timed(speed_sp=-speed, time_sp=seconds, stop_action=stop_action)
-    right_motor.run_timed(speed_sp=0, time_sp=0, stop_action=stop_action)
+    left_motor.run_timed(speed_sp=0, time_sp=0, stop_action=stop_action)
+    right_motor.run_timed(speed_sp=-speed, time_sp=1000 * seconds, stop_action=stop_action)
 
 
 def turn_right_by_time(degrees, speed, stop_action):
