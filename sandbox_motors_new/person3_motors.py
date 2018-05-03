@@ -11,6 +11,7 @@ Authors: David Fisher, David Mutchler and Lilin Chen.
 
 import ev3dev.ev3 as ev3
 import time
+import math
 
 
 def test_turn_left_turn_right():
@@ -44,11 +45,11 @@ def test_turn_left_turn_right():
     speed_to_travel = int(input('Speed to travel:'))
     stop_action = str(input('Stop action:'))
     if speed_to_travel > 0:
-        turn_left_by_time(degrees_to_travel, speed_to_travel, stop_action)
-        # turn_left_by_encoders(degrees_to_travel, speed_to_travel, stop_action)
+        # turn_left_by_time(degrees_to_travel, speed_to_travel, stop_action)
+        turn_left_by_encoders(degrees_to_travel, speed_to_travel, stop_action)
     if speed_to_travel < 0:
-        turn_right_by_time(degrees_to_travel, speed_to_travel, stop_action)
-        # turn_right_by_encoders(degrees_to_travel, speed_to_travel, stop_action)
+        # turn_right_by_time(degrees_to_travel, speed_to_travel, stop_action)
+        turn_right_by_encoders(degrees_to_travel, speed_to_travel, stop_action)
 
 
 def turn_left_seconds(seconds, speed, stop_action):
@@ -85,11 +86,13 @@ def turn_left_by_time(degrees, speed, stop_action):
     assert left_motor.connected
     assert right_motor.connected
 
-    seconds = degrees / speed
-    right_motor.stop_action = stop_action
-    right_motor.run_forever(speed_sp = speed)
+    distance = (degrees / 360) * 2 * math.pi * 5.75
+    in_speed = speed * 4 / 360
+    seconds = distance / in_speed
+    left_motor.stop_action = stop_action
+    left_motor.run_forever(speed_sp = speed)
     time.sleep(seconds)
-    right_motor.stop()
+    left_motor.stop()
 
 
 def turn_left_by_encoders(degrees, speed, stop_action):
@@ -107,9 +110,11 @@ def turn_left_by_encoders(degrees, speed, stop_action):
     assert left_motor.connected
     assert right_motor.connected
 
-    right_motor.run_to_rel_pos(position_sp = degrees, speed_sp = speed)
-    right_motor.wait_while(ev3.Motor.STATE_RUNNING)
-    right_motor.stop_action = stop_action
+    distance = (degrees / 360) * 2 * math.pi * 5.75
+    wheel_degrees = (distance / (2 * math.pi * 0.75)) * 360
+    left_motor.run_to_rel_pos(position_sp = wheel_degrees, speed_sp = speed)
+    left_motor.wait_while(ev3.Motor.STATE_RUNNING)
+    left_motor.stop_action = stop_action
 
 
 def turn_right_seconds(seconds, speed, stop_action):
@@ -134,11 +139,13 @@ def turn_right_by_time(degrees, speed, stop_action):
     assert left_motor.connected
     assert right_motor.connected
 
-    seconds = degrees / -speed
-    left_motor.stop_action = stop_action
-    left_motor.run_forever(speed_sp=-speed)
+    distance = (degrees / 360) * 2 * math.pi * 5.75
+    in_speed = -speed * 4 / 360
+    seconds = distance / in_speed
+    right_motor.stop_action = stop_action
+    right_motor.run_forever(speed_sp = -speed)
     time.sleep(seconds)
-    left_motor.stop()
+    right_motor.stop()
 
 
 def turn_right_by_encoders(degrees, speed, stop_action):
@@ -150,9 +157,11 @@ def turn_right_by_encoders(degrees, speed, stop_action):
     assert left_motor.connected
     assert right_motor.connected
 
-    left_motor.run_to_rel_pos(position_sp=degrees, speed_sp=-speed)
-    left_motor.wait_while(ev3.Motor.STATE_RUNNING)
-    left_motor.stop_action = stop_action
+    distance = (degrees / 360) * 2 * math.pi * 5.75
+    wheel_degrees = (distance / (2 * math.pi * 0.75)) * 360
+    right_motor.run_to_rel_pos(position_sp=wheel_degrees, speed_sp=-speed)
+    right_motor.wait_while(ev3.Motor.STATE_RUNNING)
+    right_motor.stop_action = stop_action
 
 
 test_turn_left_turn_right()
