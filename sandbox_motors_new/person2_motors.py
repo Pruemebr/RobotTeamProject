@@ -28,6 +28,7 @@ def test_spin_left_spin_right():
       3. Same as #2, but runs spin_left_by_encoders.
       4. Same as #1, 2, 3, but tests the spin_right functions.
     """
+#   spin_left_seconds:
     while True:
         print('Followings are for spin_left_seconds: ')
         turning_time = float(input('Enter the seconds to travel: '))
@@ -37,6 +38,7 @@ def test_spin_left_spin_right():
             break
         spin_left_seconds(turning_time, speed, stop_action)
 
+#   spin_left_by_time:
     while True:
         print('Followings are for spin_left_by_time: ')
         degrees = int(input('Enter the turning angle: '))
@@ -46,6 +48,7 @@ def test_spin_left_spin_right():
             break
         spin_left_by_time(degrees, speed, stop_action)
 
+#   spin_left_by_encoders:
     while True:
         print('Followings are for spin_left_by_encoders: ')
         degrees = int(input('Enter the turning degrees: '))
@@ -55,6 +58,7 @@ def test_spin_left_spin_right():
             break
         spin_left_seconds(degrees, speed, stop_action)
 
+#   spin_right_seconds:
     while True:
         print('Followings are for spin_right_seconds: ')
         turning_time = float(input('Enter the seconds to travel: '))
@@ -64,6 +68,7 @@ def test_spin_left_spin_right():
             break
         spin_right_seconds(turning_time, speed, stop_action)
 
+#   spin_right_by_time:
     while True:
         print('Followings are for spin_right_by_time: ')
         degrees = int(input('Enter the turning angle: '))
@@ -73,6 +78,7 @@ def test_spin_left_spin_right():
             break
         spin_right_by_time(degrees, speed, stop_action)
 
+#   spin_right_by_encoders:
     while True:
         print('Followings are for spin_right_by_encoders: ')
         degrees = int(input('Enter the turning angle: '))
