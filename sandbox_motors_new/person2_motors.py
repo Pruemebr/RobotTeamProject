@@ -32,60 +32,66 @@ def test_spin_left_spin_right():
     while True:
         print('Followings are for spin_left_seconds: ')
         turning_time = float(input('Enter the seconds to travel: '))
-        speed = int(input('Enter the speed: '))
-        stop_action = input('Enter the stop action: ')
         if turning_time == 0:
             break
+        speed = int(input('Enter the speed: '))
+        stop_action = input('Enter the stop action: ')
+
         spin_left_seconds(turning_time, speed, stop_action)
 
 #   spin_left_by_time:
     while True:
         print('Followings are for spin_left_by_time: ')
         degrees = int(input('Enter the turning angle: '))
-        speed = int(input('Enter the speed: '))
-        stop_action = input('Enter the stop action: ')
         if degrees == 0:
             break
+        speed = int(input('Enter the speed: '))
+        stop_action = input('Enter the stop action: ')
+
         spin_left_by_time(degrees, speed, stop_action)
 
 #   spin_left_by_encoders:
     while True:
         print('Followings are for spin_left_by_encoders: ')
         degrees = int(input('Enter the turning degrees: '))
-        speed = int(input('Enter the speed: '))
-        stop_action = input('Enter the stop action: ')
         if degrees == 0:
             break
+        speed = int(input('Enter the speed: '))
+        stop_action = input('Enter the stop action: ')
+
         spin_left_seconds(degrees, speed, stop_action)
 
 #   spin_right_seconds:
     while True:
         print('Followings are for spin_right_seconds: ')
         turning_time = float(input('Enter the seconds to travel: '))
-        speed = int(input('Enter the speed: '))
-        stop_action = input('Enter the stop action: ')
         if turning_time == 0:
             break
+        speed = int(input('Enter the speed: '))
+        stop_action = input('Enter the stop action: ')
+
         spin_right_seconds(turning_time, speed, stop_action)
 
 #   spin_right_by_time:
     while True:
         print('Followings are for spin_right_by_time: ')
         degrees = int(input('Enter the turning angle: '))
-        speed = int(input('Enter the speed: '))
-        stop_action = input('Enter the stop action: ')
         if degrees == 0:
             break
+        speed = int(input('Enter the speed: '))
+        stop_action = input('Enter the stop action: ')
+
         spin_right_by_time(degrees, speed, stop_action)
 
 #   spin_right_by_encoders:
     while True:
         print('Followings are for spin_right_by_encoders: ')
         degrees = int(input('Enter the turning angle: '))
-        speed = int(input('Enter the speed: '))
-        stop_action = input('Enter the stop action: ')
         if degrees == 0:
             break
+        speed = int(input('Enter the speed: '))
+        stop_action = input('Enter the stop action: ')
+
         spin_right_by_encoders(degrees, speed, stop_action)
 
 
