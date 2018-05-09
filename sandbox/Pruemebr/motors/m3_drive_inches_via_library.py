@@ -51,13 +51,18 @@ def main():
     while True:
         speed_deg_per_second = int(input("Speed (0 to 900 dps): "))
         if speed_deg_per_second == 0:
-            break
-        inches_target = int(input("Distance (inches): "))
-        if inches_target == 0:
-            break
+            turn_degree = int(input("Degrees to turn: "))
+            if turn_degree == 0:
+                break
 
-        robot.drive_inches(inches_target, speed_deg_per_second)
+            robot.turn_left(turn_degree)
+            ev3.Sound.beep().wait()
+        inches_target = int(input("Distance (inches): "))
+
+        robot.forward(inches_target, speed_deg_per_second)
         ev3.Sound.beep().wait()  # Fun little beep
+
+
 
     print("Goodbye!")
     ev3.Sound.speak("Goodbye").wait()
