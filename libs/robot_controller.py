@@ -36,6 +36,10 @@ class Snatch3r(object):
         self.left_motor.wait_while('running')
         self.right_motor.wait_while('running')
 
+    def backward(self, inches, speed, stop_action = "brake"):
+        if speed < 0:
+            self.forward(-inches, speed, stop_action)
+
     def turn_left(self, degrees, speed = 100, stop_action = "brake"):
         distance = (degrees / 360) * 2 * math.pi * 5.75
         wheel_degrees = (distance / (2 * math.pi * 0.75)) * 360
