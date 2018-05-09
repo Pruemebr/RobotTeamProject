@@ -53,7 +53,7 @@ def main():
         if speed_deg_per_second == 0:
             turn_degree = int(input("Degrees to turn: "))
             if turn_degree == 0:
-                break
+                break 
 
             robot.turn_left(turn_degree)
             ev3.Sound.beep().wait()
