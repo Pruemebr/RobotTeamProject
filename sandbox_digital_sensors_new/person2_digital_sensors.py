@@ -187,7 +187,7 @@ def wait_for_up_button_press():
     while True:
         print(button.up)
         time.sleep(0.05)
-        if button.up is True:
+        if button.up:
             break
 
 
@@ -217,21 +217,18 @@ def show_leds():
     """
     button = ev3.Button()
     while True:
-        if button.left is True:
+        if button.left:
             ev3.Leds.set_color(ev3.Leds.LEFT, ev3.Leds.GREEN)
-            time.sleep(3)
-        if button.right is True:
+        if button.right:
             ev3.Leds.set_color(ev3.Leds.RIGHT, ev3.Leds.RED)
-            time.sleep(3)
-        if button.up is True:
+        if button.up:
             ev3.Leds.set_color(ev3.Leds.LEFT, ev3.Leds.AMBER)
-            time.sleep(3)
-        if button.down is True:
+        if button.down:
             ev3.Leds.set_color(ev3.Leds.LEFT, ev3.Leds.BLACK)
             ev3.Leds.set_color(ev3.Leds.RIGHT, ev3.Leds.BLACK)
-            time.sleep(3)
-        if button.backspace is True:
+        if button.backspace:
             break
+        time.sleep(0.1)
 
 
 # -----------------------------------------------------------------------------
