@@ -47,5 +47,12 @@ class Snatch3r(object):
         self.left_motor.wait_while(ev3.Motor.STATE_RUNNING)
         self.left_motor.stop_action = stop_action
 
+    def turn_right(self, degrees, speed, stop_action = "brake"): # speed needs to be negative
+        distance = (degrees / 360) * 2 * math.pi * 5.75
+        wheel_degrees = (distance / (2 * math.pi * 0.75)) * 360
+        self.right_motor.run_to_rel_pos(position_sp=wheel_degrees, speed_sp=-speed)
+        self.right_motor.wait_while(ev3.Motor.STATE_RUNNING)
+        self.right_motor.stop_action = stop_action
+
     # TODO: Implement the Snatch3r class as needed when working the sandox exercises
     # (and delete these comments)
