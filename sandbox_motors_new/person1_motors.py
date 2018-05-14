@@ -30,10 +30,10 @@ def test_forward_backward():
     """
     #forward_seconds(5,50,"brake")
     #forward_by_time(17,100,"brake")
-    #forward_by_encoders(10, 100, "brake")
+    forward_by_encoders(100, 100, "brake")
     #backward_seconds(5, -100, "brake")
     #backward_by_time(10, -100, "brake")
-    backward_by_encoders(5, -100, "brake")
+    #backward_by_encoders(5, -100, "brake")
 
 def forward_seconds(seconds, speed, stop_action):
     """

@@ -22,9 +22,14 @@ class Snatch3r(object):
     def __init__(self):
         self.left_motor = ev3.LargeMotor(ev3.OUTPUT_B)
         self.right_motor = ev3.LargeMotor(ev3.OUTPUT_C)
+        self.arm_motor = ev3.MediumMotor(ev3.OUTPUT_A)
+        self.touch_sensor = ev3.TouchSensor()
+
 
         assert self.left_motor.connected
         assert self.right_motor.connected
+        assert self.arm_motor.connected
+        assert self.touch_sensor
 
     def forward(self, inches, speed = 100, stop_action = "brake"):
         deg = (inches / (1.3 * 3.14159)) * (2 * 3.14159) * (180 / 3.14159)  # number of revolutions * 2pi rad/rev * 180 deg/pi rad
@@ -53,6 +58,50 @@ class Snatch3r(object):
         self.right_motor.run_to_rel_pos(position_sp=wheel_degrees, speed_sp=-speed)
         self.right_motor.wait_while(ev3.Motor.STATE_RUNNING)
         self.right_motor.stop_action = stop_action
+
+
+    def arm_calibration(self):
+
+        self.arm_motor.run_forever(speed_sp=400)
+        while self.touch_sensor.is_pressed == 0:
+            time.sleep(0.01)
+        self.arm_motor.stop(stop_action="brake")
+        ev3.Sound.beep()
+
+        arm_revolutions_for_full_range = 14.2
+        deg = (arm_revolutions_for_full_range / (1.3 * 3.14159)) * (2 * 3.14159) * (180 / 3.14159)
+        self.arm_motor.run_to_rel_pos(speed_sp=400)
+        self.arm_motor.run_to_rel_pos(position_sp=-deg)
+
+        time.sleep(8)
+        ev3.Sound.beep()
+
+        self.arm_motor.wait_while(ev3.Motor.STATE_STALLED)
+
+        self.arm_motor.position = 0  # Calibrate the down position as 0 (this line is correct as is).
+
+    def arm_up(self):
+
+        arm_revolutions_for_full_range = 14.2
+        deg = (arm_revolutions_for_full_range / (1.3 * 3.14159)) * (2 * 3.14159) * (180 / 3.14159)  # Not sure if correct
+
+        self.arm_motor.run_to_rel_pos(speed_sp=800)
+        self.arm_motor.run_to_rel_pos(position_sp=-deg)
+        ev3.Sound.beep()
+        time.sleep(.1)
+        self.arm_motor.wait_while(ev3.Motor.STATE_HOLDING)  # Blocks until the motor finishes running
+
+    def arm_down(self):
+
+        arm_revolutions_for_full_range = 14.2
+        deg = (arm_revolutions_for_full_range / (1.3 * 3.14159)) * (2 * 3.14159) * (
+                    180 / 3.14159)  # Not sure if correct
+
+        self.arm_motor.run_to_rel_pos(speed_sp=800)
+        self.arm_motor.run_to_rel_pos(position_sp=-deg)
+        ev3.Sound.beep()
+        time.sleep(.1)
+        self.arm_motor.wait_while(ev3.Motor.STATE_HOLDING)  # Blocks until the motor finishes running
 
     # TODO: Implement the Snatch3r class as needed when working the sandox exercises
     # (and delete these comments)

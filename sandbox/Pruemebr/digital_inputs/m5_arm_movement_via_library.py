@@ -4,8 +4,8 @@ Time to move your arm movement functions into your Snatch3r robot library.
 
 This module will work exactly the same as the prior module but will do that work via your robot library.
 
-Authors: David Fisher and PUT_YOUR_NAME_HERE.
-"""  # TODO: 1. PUT YOUR NAME IN THE ABOVE LINE.
+Authors: David Fisher and Bryce Pruemer.
+"""  # DONE: 1. PUT YOUR NAME IN THE ABOVE LINE.
 
 # TODO: 2. Have everyone talk about this problem together then pick one team member to modify libs/robot_controller.py
 # as necessary to make the code below perform the same task as the prior module. Once the code has been tested and shown
@@ -31,6 +31,7 @@ def main():
     print("--------------------------------------------")
     ev3.Sound.speak("Arm movement via library").wait()
     robot = robo.Snatch3r()
+
 
     while True:
         command_to_run = input("Enter c (for calibrate), u (for up), d (for down), or q (for quit): ")
