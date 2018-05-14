@@ -21,7 +21,7 @@ def main():
     print("--------------------------------------------")
     ev3.Sound.speak("Touch sensor arm movements").wait()
 
-    arm_motor = ev3.MediumMotor(ev3.OUTPUT_A)
+    arm_motor = ev3.MediumMotor(ev3.OUTPUT_A)#
     assert arm_motor.connected
 
     touch_sensor = ev3.TouchSensor()
