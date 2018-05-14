@@ -24,12 +24,17 @@ class Snatch3r(object):
         self.right_motor = ev3.LargeMotor(ev3.OUTPUT_C)
         self.arm_motor = ev3.MediumMotor(ev3.OUTPUT_A)
         self.touch_sensor = ev3.TouchSensor()
+        self.running = True
 
 
         assert self.left_motor.connected
         assert self.right_motor.connected
         assert self.arm_motor.connected
         assert self.touch_sensor
+
+    def loop_forever(self):
+        while True:
+            
 
     def forward(self, inches, speed = 100, stop_action = "brake"):
         deg = (inches / (1.3 * 3.14159)) * (2 * 3.14159) * (180 / 3.14159)  # number of revolutions * 2pi rad/rev * 180 deg/pi rad
@@ -40,6 +45,11 @@ class Snatch3r(object):
 
         self.left_motor.wait_while('running')
         self.right_motor.wait_while('running')
+
+    def foreverforward(self, speed):
+        self.left_motor.run_forever(speed_sp=speed*8)
+        self.right_motor.run_forever(speed_sp=speed * 8)
+
 
     def backward(self, inches, speed, stop_action = "brake"):
         if speed < 0:
@@ -105,3 +115,17 @@ class Snatch3r(object):
 
     # TODO: Implement the Snatch3r class as needed when working the sandox exercises
     # (and delete these comments)
+
+    def loop_forever(self):
+        # This is a convenience method that I don't really recommend for most programs other than m5.
+        #   This method is only useful if the only input to the robot is coming via mqtt.
+        #   MQTT messages will still call methods, but no other input or output happens.
+        # This method is given here since the concept might be confusing.
+        self.running = True
+        while self.running:
+            time.sleep(0.1)  # Do nothing (except receive MQTT messages) until an MQTT message calls shutdown.
+
+    def shutdown(self):
+        # Modify a variable that will allow the loop_forever method to end. Additionally stop motors and set LEDs green.
+        # The most important part of this method is given here, but you should add a bit more to stop motors, etc.
+        self.running = False
