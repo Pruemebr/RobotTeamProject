@@ -31,6 +31,10 @@ class Snatch3r(object):
         assert self.arm_motor.connected
         assert self.touch_sensor
 
+    def loop_forever(self):
+        while True:
+            
+
     def forward(self, inches, speed = 100, stop_action = "brake"):
         deg = (inches / (1.3 * 3.14159)) * (2 * 3.14159) * (180 / 3.14159)  # number of revolutions * 2pi rad/rev * 180 deg/pi rad
         self.left_motor.run_to_rel_pos(speed_sp=speed * 8)
@@ -40,6 +44,11 @@ class Snatch3r(object):
 
         self.left_motor.wait_while('running')
         self.right_motor.wait_while('running')
+
+    def foreverforward(self, speed):
+        self.left_motor.run_forever(speed_sp=speed*8)
+        self.right_motor.run_forever(speed_sp=speed * 8)
+
 
     def backward(self, inches, speed, stop_action = "brake"):
         if speed < 0:
