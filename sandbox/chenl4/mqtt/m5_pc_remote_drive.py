@@ -115,7 +115,7 @@ def main():
 # ----------------------------------------------------------------------
 # Tkinter callbacks
 # ----------------------------------------------------------------------
-# TODO: 4. Implement the functions for the drive button callbacks.
+# DONE: 4. Implement the functions for the drive button callbacks.
 def forward(mqtt_client, left_speed_entry, right_speed_entry):
     print("Forward!")
     mqtt_client.send_message("foreverforward", [int(left_speed_entry), int(right_speed_entry)])
@@ -124,7 +124,7 @@ def forward(mqtt_client, left_speed_entry, right_speed_entry):
 def turn_left(mqtt_client, left_speed_entry, right_speed_entry):
     print("Turning Left")
     mqtt_client.send_message("turn_left", [int(left_speed_entry), int(right_speed_entry)])
-    
+
 
 def stop(mqtt_client):
     print("Stop!")
