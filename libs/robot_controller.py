@@ -31,9 +31,6 @@ class Snatch3r(object):
         assert self.right_motor.connected
         assert self.arm_motor.connected
         assert self.touch_sensor
-
-    def loop_forever(self):
-        while True:
             
 
     def forward(self, inches, speed = 100, stop_action = "brake"):
