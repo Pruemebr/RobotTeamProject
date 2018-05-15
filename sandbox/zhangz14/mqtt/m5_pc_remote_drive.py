@@ -131,17 +131,21 @@ def send_backward(mqtt_client, l_spd_entry, r_spd_entry):
 
 
 def send_left(mqtt_client, l_spd_entry, r_spd_entry):
-    print('spin_left')
-    l_spd = -int(l_spd_entry.get())
+    print('turn_left')
+    l_spd = int(l_spd_entry.get())
     r_spd = int(r_spd_entry.get())
-    mqtt_client.send_message('spin_left', [l_spd, r_spd])
+    if l_spd >= r_spd:
+        l_spd = -l_spd
+    mqtt_client.send_message('turn_left', [l_spd, r_spd])
 
 
 def send_right(mqtt_client, l_spd_entry, r_spd_entry):
-    print('spin_right')
+    print('turn_right')
     l_spd = int(l_spd_entry.get())
-    r_spd = -int(r_spd_entry.get())
-    mqtt_client.send_message('spin_right', [l_spd, r_spd])
+    r_spd = int(r_spd_entry.get())
+    if r_spd >= l_spd:
+        r_spd = -r_spd
+    mqtt_client.send_message('turn_right', [l_spd, r_spd])
 
 
 def send_stop(mqtt_client):
