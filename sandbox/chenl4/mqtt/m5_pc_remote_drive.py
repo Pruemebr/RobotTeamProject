@@ -117,19 +117,28 @@ def main():
 # ----------------------------------------------------------------------
 # TODO: 4. Implement the functions for the drive button callbacks.
 def forward(mqtt_client, left_speed_entry, right_speed_entry):
-
+    print("Forward!")
+    mqtt_client.send_message("foreverforward", [int(left_speed_entry), int(right_speed_entry)])
 
 
 def turn_left(mqtt_client, left_speed_entry, right_speed_entry):
-
+    print("Turning Left")
+    mqtt_client.send_message("turn_left", [int(left_speed_entry), int(right_speed_entry)])
+    
 
 def stop(mqtt_client):
+    print("Stop!")
+    mqtt_client.send_message("stop")
 
 
 def turn_right(mqtt_client, left_speed_entry, right_speed_entry):
+    print("Turning Right!")
+    mqtt_client.send_message("turn_right", [int(left_speed_entry), int(right_speed_entry)])
 
 
 def backward(mqtt_client, left_speed_entry, right_speed_entry):
+    print("Backward!")
+    mqtt_client.send_message("backward", [int(left_speed_entry), int(right_speed_entry)])
 
 
 # TODO: 5. Call over a TA or instructor to sign your team's checkoff sheet and do a code review.  This is the final one!

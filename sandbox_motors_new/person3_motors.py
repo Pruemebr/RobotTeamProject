@@ -3,7 +3,7 @@ Functions for TURNING the robot LEFT and RIGHT.
 Authors: David Fisher, David Mutchler and Lilin Chen.
 """  # DONE: 1. PUT YOUR NAME IN THE ABOVE LINE.
 
-# TODO: 2. Implment turn_left_seconds, then the relevant part of the test function.
+# DONE: 2. Implment turn_left_seconds, then the relevant part of the test function.
 #          Test and correct as needed.
 #   Then repeat for turn_left_by_time.
 #   Then repeat for turn_left_by_encoders.
