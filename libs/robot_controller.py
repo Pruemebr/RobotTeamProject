@@ -126,3 +126,6 @@ class Snatch3r(object):
         # Modify a variable that will allow the loop_forever method to end. Additionally stop motors and set LEDs green.
         # The most important part of this method is given here, but you should add a bit more to stop motors, etc.
         self.running = False
+        while self.running:
+            self.left_motor.stop()
+            self.right_motor.stop()
