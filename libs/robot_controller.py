@@ -32,10 +32,6 @@ class Snatch3r(object):
         assert self.arm_motor.connected
         assert self.touch_sensor
 
-    def loop_forever(self):
-        while True:
-            
-
     def forward(self, inches, speed = 100, stop_action = "brake"):
         deg = (inches / (1.3 * 3.14159)) * (2 * 3.14159) * (180 / 3.14159)  # number of revolutions * 2pi rad/rev * 180 deg/pi rad
         self.left_motor.run_to_rel_pos(speed_sp=speed * 8)
@@ -46,14 +42,18 @@ class Snatch3r(object):
         self.left_motor.wait_while('running')
         self.right_motor.wait_while('running')
 
-    def foreverforward(self, speed):
-        self.left_motor.run_forever(speed_sp=speed*8)
-        self.right_motor.run_forever(speed_sp=speed * 8)
+    def foreverforward(self, lspeed, rspeed):
+        self.left_motor.run_forever(speed_sp=lspeed)
+        self.right_motor.run_forever(speed_sp=rspeed)
 
 
     def backward(self, inches, speed, stop_action = "brake"):
         if speed < 0:
             self.forward(-inches, speed, stop_action)
+
+    def stop(self):
+        self.left_motor.stop(stop_action='brake')
+        self.right_motor.stop(stop_action='brake')
 
     def turn_left(self, degrees, speed = 100, stop_action = "brake"):
         distance = (degrees / 360) * 2 * math.pi * 5.75
@@ -62,6 +62,10 @@ class Snatch3r(object):
         self.left_motor.wait_while(ev3.Motor.STATE_RUNNING)
         self.left_motor.stop_action = stop_action
 
+    def left(self, speed):
+        self.right_motor.run_forever(speed_sp=0)
+        self.left_motor.run_forever(speed_sp=speed)
+
     def turn_right(self, degrees, speed, stop_action = "brake"): # speed needs to be negative
         distance = (degrees / 360) * 2 * math.pi * 5.75
         wheel_degrees = (distance / (2 * math.pi * 0.75)) * 360
@@ -69,6 +73,10 @@ class Snatch3r(object):
         self.right_motor.wait_while(ev3.Motor.STATE_RUNNING)
         self.right_motor.stop_action = stop_action
 
+
+    def right_turn(self, speed):
+        self.right_motor.run_forever(speed_sp=speed)
+        self.left_motor.run_forever(speed_sp=0)
 
     def arm_calibration(self):
 
@@ -92,20 +100,17 @@ class Snatch3r(object):
 
     def arm_up(self):
 
-        arm_revolutions_for_full_range = 14.2
-        deg = (arm_revolutions_for_full_range / (1.3 * 3.14159)) * (2 * 3.14159) * (180 / 3.14159)  # Not sure if correct
-
-        self.arm_motor.run_to_rel_pos(speed_sp=800)
-        self.arm_motor.run_to_rel_pos(position_sp=-deg)
+        self.arm_motor.run_forever(speed_sp=800)
+        while self.touch_sensor.is_pressed == 0:
+            time.sleep(0.01)
+        self.arm_motor.stop(stop_action="brake")
         ev3.Sound.beep()
-        time.sleep(.1)
-        self.arm_motor.wait_while(ev3.Motor.STATE_HOLDING)  # Blocks until the motor finishes running
+
 
     def arm_down(self):
 
         arm_revolutions_for_full_range = 14.2
-        deg = (arm_revolutions_for_full_range / (1.3 * 3.14159)) * (2 * 3.14159) * (
-                    180 / 3.14159)  # Not sure if correct
+        deg = 14.2 * 360# Not sure if correct
 
         self.arm_motor.run_to_rel_pos(speed_sp=800)
         self.arm_motor.run_to_rel_pos(position_sp=-deg)
@@ -128,4 +133,6 @@ class Snatch3r(object):
     def shutdown(self):
         # Modify a variable that will allow the loop_forever method to end. Additionally stop motors and set LEDs green.
         # The most important part of this method is given here, but you should add a bit more to stop motors, etc.
+        ev3.Sound.speak('Goodbye').wait
         self.running = False
+
