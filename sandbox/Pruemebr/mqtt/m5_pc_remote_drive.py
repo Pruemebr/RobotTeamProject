@@ -128,11 +128,11 @@ def remote_forward(mqtt_client, left_speed_entry, right_speed_entry):
 
     print(leftspeed)
     print(rightspeed)
-    print(type(leftspeed))
+
     lspeed = int(leftspeed)
     rspeed = int(rightspeed)
 
-    mqtt_client.send_message('foreverforward',[str(lspeed), str(rspeed)])
+    mqtt_client.send_message('foreverforward',[str(rspeed), str(lspeed)])
 
 
 
