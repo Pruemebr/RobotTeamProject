@@ -72,8 +72,8 @@ def main():
 
     left_button = ttk.Button(main_frame, text="Left")
     left_button.grid(row=3, column=0)
-    left_button['command'] = lambda: remote_left(mqtt_client, right_speed_entry)
-    root.bind('<Left>', lambda event: remote_left(mqtt_client, right_speed_entry))
+    left_button['command'] = lambda: remote_left(mqtt_client, left_speed_entry, right_speed_entry)
+    root.bind('<Left>', lambda event: remote_left(mqtt_client, left_speed_entry, right_speed_entry))
     # left_button and '<Left>' key
 
     stop_button = ttk.Button(main_frame, text="Stop")
@@ -84,8 +84,8 @@ def main():
 
     right_button = ttk.Button(main_frame, text="Right")
     right_button.grid(row=3, column=2)
-    right_button['command'] = lambda: remote_right(mqtt_client, right_speed_entry)
-    root.bind('<Right>', lambda event: remote_right(mqtt_client, left_speed_entry))
+    right_button['command'] = lambda: remote_right(mqtt_client, left_speed_entry, right_speed_entry)
+    root.bind('<Right>', lambda event: remote_right(mqtt_client, left_speed_entry, right_speed_entry))
     # right_button and '<Right>' key
 
     back_button = ttk.Button(main_frame, text="Back")
@@ -155,17 +155,21 @@ def remote_brake(mqtt_client):
     mqtt_client.send_message('stop', [])
 
 
-def remote_left(mqtt_client, right_speed_entry):
-    rightspeed = right_speed_entry.get()
-    speed = int(rightspeed)
-    mqtt_client.send_message('left', [str(speed)])
-
-
-def remote_right(mqtt_client, left_speed_entry):
+def remote_left(mqtt_client, left_speed_entry, right_speed_entry):
     leftspeed = left_speed_entry.get()
-    speed = int(leftspeed)
-    mqtt_client.send_message('right_turn', [str(speed)])
-    mqtt_client.send_message('right_turn', [str(speed)])
+    rightspeed = right_speed_entry.get()
+    lspeed = -int(leftspeed)
+    rspeed = int(rightspeed)
+    mqtt_client.send_message('foreverforward', [str(rspeed), str(lspeed)])
+
+
+def remote_right(mqtt_client, left_speed_entry, right_speed_entry):
+    leftspeed = left_speed_entry.get()
+    rightspeed = right_speed_entry.get()
+    lspeed = int(leftspeed)
+    rspeed = -int(rightspeed)
+    mqtt_client.send_message('foreverforward', [str(rspeed), str(lspeed)])
+    mqtt_client.send_message('foreverforward', [str(rspeed), str(lspeed)])
 
 def remote_up(mqtt_client):
     mqtt_client.send_message('send_up', [])
