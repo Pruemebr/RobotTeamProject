@@ -79,7 +79,7 @@ class Snatch3r(object):
         self.left_motor.run_forever(speed_sp=0)
 
     def arm_calibration(self):
-
+#
         self.arm_motor.run_forever(speed_sp=400)
         while self.touch_sensor.is_pressed == 0:
             time.sleep(0.01)
