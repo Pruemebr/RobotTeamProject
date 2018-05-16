@@ -127,8 +127,8 @@ def forward(mqtt_client, left_speed_entry, right_speed_entry):
 def turn_left(mqtt_client, left_speed_entry, right_speed_entry):
     l_speed = int(left_speed_entry.get())
     r_speed = int(right_speed_entry.get())
-    print("Turning Left")
-    mqtt_client.send_message("turn_left", [l_speed, r_speed])
+    print("Turning Left!")
+    mqtt_client.send_message("left", [r_speed])
 
 
 def stop(mqtt_client):
@@ -140,14 +140,14 @@ def turn_right(mqtt_client, left_speed_entry, right_speed_entry):
     l_speed = int(left_speed_entry.get())
     r_speed = int(right_speed_entry.get())
     print("Turning Right!")
-    mqtt_client.send_message("turn_right", [l_speed, r_speed])
+    mqtt_client.send_message("right_turn", [l_speed])
 
 
 def backward(mqtt_client, left_speed_entry, right_speed_entry):
-    l_speed = int(left_speed_entry.get())
-    r_speed = int(right_speed_entry.get())
+    l_speed = -int(left_speed_entry.get())
+    r_speed = -int(right_speed_entry.get())
     print("Backward!")
-    mqtt_client.send_message("backward", [l_speed, r_speed])
+    mqtt_client.send_message("foreverforward", [l_speed, r_speed])
 
 
 # TODO: 5. Call over a TA or instructor to sign your team's checkoff sheet and do a code review.  This is the final one!
