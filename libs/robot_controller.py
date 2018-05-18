@@ -136,3 +136,13 @@ class Snatch3r(object):
         ev3.Sound.speak('Goodbye').wait
         self.running = False
 
+    def sing(self):
+        if not self.touch_sensor.is_pressed():
+            print("Don't sing")
+            ev3.Sound.speak("I will not sing a song until I pick a red cap up").wait()
+        if self.touch_sensor.is_pressed():
+            print("Sing")
+            ev3.Sound.play("/home/robot/csse120/assets/sounds/awesome_pcm.wav")
+            ev3.Leds.set_color(ev3.Leds.RIGHT, ev3.Leds.RED)
+            ev3.Leds.set_color(ev3.Leds.LEFT, ev3.Leds.RED)
+
