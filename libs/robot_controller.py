@@ -35,7 +35,7 @@ class Snatch3r(object):
         assert self.right_motor.connected
         assert self.arm_motor.connected
         assert self.touch_sensor
-        
+
 
     def forward(self, inches, speed = 100, stop_action = "brake"):
         deg = (inches / (1.3 * 3.14159)) * (2 * 3.14159) * (180 / 3.14159)  # number of revolutions * 2pi rad/rev * 180 deg/pi rad
