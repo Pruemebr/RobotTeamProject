@@ -21,7 +21,7 @@ def main():
     mqtt_client.connect_to_ev3()
 
     root = tkinter.Tk()
-    root.title("Red Cap Picker")
+    root.title("Red Cap Grabber")
 
     main_frame = ttk.Frame(root, padding=90)
     main_frame.grid()
@@ -46,7 +46,7 @@ def pop_up_control_board():
     mqtt_client = com.MqttClient()
     mqtt_client.connect_to_ev3()
 
-    control_board.title("Red Cap Picker Control Board")
+    control_board.title("Red Cap Grabber Control Board")
     main_frame = ttk.Frame(control_board, padding=50)
     main_frame.grid()
 
