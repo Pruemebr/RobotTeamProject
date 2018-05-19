@@ -137,7 +137,7 @@ class Snatch3r(object):
         self.running = False
 
     def sing(self):
-        if not self.touch_sensor.is_pressed():
+        if not self.touch_sensor.is_pressed:
             print("Don't sing")
             ev3.Sound.speak("I will not sing a song until I pick a red cap up").wait()
         if self.touch_sensor.is_pressed():
