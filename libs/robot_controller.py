@@ -28,12 +28,14 @@ class Snatch3r(object):
         self.running = True
         self.list = []
         self.pixy = ev3.Sensor(driver_name='pixy-lego')
+        self.ir_sensor = ev3.InfraredSensor()
 
 
         assert self.left_motor.connected
         assert self.right_motor.connected
         assert self.arm_motor.connected
         assert self.touch_sensor
+        
 
     def forward(self, inches, speed = 100, stop_action = "brake"):
         deg = (inches / (1.3 * 3.14159)) * (2 * 3.14159) * (180 / 3.14159)  # number of revolutions * 2pi rad/rev * 180 deg/pi rad
@@ -200,3 +202,32 @@ class Snatch3r(object):
         ev3.Sound.speak('Goodbye').wait
         self.running = False
 
+    def sing(self):
+        if not self.touch_sensor.is_pressed:
+            print("Don't sing")
+            ev3.Sound.speak("I will not sing a song until I pick a red cap up").wait()
+        if self.touch_sensor.is_pressed:
+            print("Sing")
+            ev3.Sound.play("/home/robot/csse120/assets/sounds/awesome_pcm.wav").wait()
+            ev3.Leds.set_color(ev3.Leds.RIGHT, ev3.Leds.RED)
+            ev3.Leds.set_color(ev3.Leds.LEFT, ev3.Leds.RED)
+
+    def mission_complete(self):
+        ev3.Sound.speak("Mission complete")
+
+    def conditions_for_meeting(self):
+        self.pixy.mode = "SIG1"
+
+        while not self.touch_sensor.is_pressed:
+            if self.ir_sensor.proximity < 20:
+                if self.pixy.value(1) > 188 or self.pixy.value(1) < 199:
+                    if self.pixy.value(2) > 70 or self.pixy.value(2) < 130:
+                        if self.pixy.value(3) > 4:
+                            if self.pixy.value(4) > 1:
+                                return True
+
+    def found_it(self):
+        print("Picking up!")
+        ev3.Sound.play("/home/robot/csse120/assets/sounds/awesome_pcm.wav").wait()
+        ev3.Leds.set_color(ev3.Leds.RIGHT, ev3.Leds.RED)
+        ev3.Leds.set_color(ev3.Leds.LEFT, ev3.Leds.RED)
