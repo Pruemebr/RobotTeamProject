@@ -146,3 +146,6 @@ class Snatch3r(object):
             ev3.Leds.set_color(ev3.Leds.RIGHT, ev3.Leds.RED)
             ev3.Leds.set_color(ev3.Leds.LEFT, ev3.Leds.RED)
 
+    def mission_complete(self):
+        ev3.Sound.speak("Mission complete")
+
