@@ -219,7 +219,10 @@ class Snatch3r(object):
 
     def conditions_for_meeting(self):
         self.pixy.mode = "SIG1"
-
+        print("(X, Y) = ({}, {})    Width = {} Height = {}".format(
+            self.pixy.value(1), self.pixy.value(2), self.pixy.value(3), self.pixy.value(4)))
+        print(self.ir_sensor.proximity)
+        time.sleep(0.5)
         while not self.touch_sensor.is_pressed:
             if self.ir_sensor.proximity < 20:
                 if self.pixy.value(1) > 188 or self.pixy.value(1) < 199:
