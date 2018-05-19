@@ -130,9 +130,9 @@ class Snatch3r(object):
                     if self.pixy.value(1) != 0:
                         print('reached2')
                         if option == 1:
-                            self.turn_right(90, -600, "brake")
+                            self.turn_right(90, 600, "brake")
                         elif option == 2:
-                            self.turn_left(90, -600, "brake")
+                            self.turn_left(90, 600, "brake")
                         break
 
             elif self.color_sensor.reflected_light_intensity > 10:
