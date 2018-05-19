@@ -119,12 +119,18 @@ class Snatch3r(object):
                 self.left_motor.stop(stop_action="brake")
                 self.right_motor.stop(stop_action="brake")
 
+                if direction_counter>len(self.list)-1:
+                    print ('Out of directions')
+
                 # CHOOSING WHICH DIRECTION TO GO AT INTERSECTION
-                if self.list[direction_counter] == 'forward':
+                elif self.list[direction_counter] == 'forward':
+                    direction_counter =direction_counter + 1
                     pass
                 elif self.list[direction_counter] == 'right':
+                    direction_counter = direction_counter + 1
                     option = 1
                 elif self.list[direction_counter] == 'left':
+                    direction_counter = direction_counter + 1
                     option = 2
 
                 self.pixy.mode = 'SIG2'
