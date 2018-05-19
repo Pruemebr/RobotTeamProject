@@ -24,7 +24,10 @@ class Snatch3r(object):
         self.right_motor = ev3.LargeMotor(ev3.OUTPUT_C)
         self.arm_motor = ev3.MediumMotor(ev3.OUTPUT_A)
         self.touch_sensor = ev3.TouchSensor()
+        self.color_sensor = ev3.ColorSensor()
         self.running = True
+        self.list = []
+        self.pixy = ev3.Sensor(driver_name='pixy-lego')
 
 
         assert self.left_motor.connected
@@ -77,6 +80,67 @@ class Snatch3r(object):
     def right_turn(self, speed):
         self.right_motor.run_forever(speed_sp=speed)
         self.left_motor.run_forever(speed_sp=0)
+
+    def add_to_list(self, direction):
+        print('adding')
+        self.list.append(direction)
+
+    def printing_list(self):
+        print('reached')
+        for k in range(len(self.list)):
+            print(self.list[k])
+
+    def following(self):
+        direction_counter = 0
+        # LINE FOLLOWING
+        while True:
+            self.pixy.mode = 'SIG1'
+            print("(X,Y) = ({}, {}) Width = {} Height={}".format(
+                self.pixy.value(1), self.pixy.value(2), self.pixy.value(3), self.pixy.value(4)))
+
+            if self.color_sensor.reflected_light_intensity >= 0 and self.color_sensor.reflected_light_intensity < 10:
+                lspeed = 600  # This goes straight now, but if you want it to follow a curved path, need to have this step turn it left
+                rspeed = 600
+                self.foreverforward(lspeed, rspeed)  # Moving forward when intensity in range
+                print(self.pixy.value(1))
+
+            elif self.touch_sensor.is_pressed == 1:
+
+                self.left_motor.stop(stop_action="brake")
+                self.right_motor.stop(stop_action="brake")
+                break
+
+            elif self.pixy.value(1) != 0:  # Robot stops at red
+                print('reached1')
+                self.left_motor.stop(stop_action="brake")
+                self.right_motor.stop(stop_action="brake")
+
+                # CHOOSING WHICH DIRECTION TO GO AT INTERSECTION
+                if self.list[direction_counter] == 'forward':
+                    pass
+                elif self.list[direction_counter] == 'right':
+                    option = 1
+                elif self.list[direction_counter] == 'left':
+                    option = 2
+
+                self.pixy.mode = 'SIG2'
+                var = 1
+                while var == 1:
+
+                    if self.pixy.value(1) != 0:
+                        print('reached2')
+                        if option == 1:
+                            self.turn_right(90, -600, "brake")
+                        elif option == 2:
+                            self.turn_left(90, -600, "brake")
+                        break
+
+            elif self.color_sensor.reflected_light_intensity > 10:
+                print('turning')
+                lspeed = 600
+                rspeed = 100
+                self.foreverforward(lspeed, rspeed)  # Turning right when light intensity out of range
+                print(self.pixy.value(1))
 
     def arm_calibration(self):
 #

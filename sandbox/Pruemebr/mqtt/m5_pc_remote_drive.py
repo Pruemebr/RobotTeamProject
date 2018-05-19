@@ -132,7 +132,7 @@ def remote_forward(mqtt_client, left_speed_entry, right_speed_entry):
     lspeed = int(leftspeed)
     rspeed = int(rightspeed)
 
-    mqtt_client.send_message('foreverforward',[str(rspeed), str(lspeed)])
+    mqtt_client.send_message('foreverforward',[str(lspeed), str(rspeed)])
 
 
 
@@ -160,7 +160,7 @@ def remote_left(mqtt_client, left_speed_entry, right_speed_entry):
     rightspeed = right_speed_entry.get()
     lspeed = -int(leftspeed)
     rspeed = int(rightspeed)
-    mqtt_client.send_message('foreverforward', [str(rspeed), str(lspeed)])
+    mqtt_client.send_message('foreverforward', [str(lspeed), str(rspeed)])
 
 
 def remote_right(mqtt_client, left_speed_entry, right_speed_entry):
@@ -168,8 +168,8 @@ def remote_right(mqtt_client, left_speed_entry, right_speed_entry):
     rightspeed = right_speed_entry.get()
     lspeed = int(leftspeed)
     rspeed = -int(rightspeed)
-    mqtt_client.send_message('foreverforward', [str(rspeed), str(lspeed)])
-    mqtt_client.send_message('foreverforward', [str(rspeed), str(lspeed)])
+    mqtt_client.send_message('foreverforward', [str(lspeed), str(rspeed)])
+
 
 def remote_up(mqtt_client):
     mqtt_client.send_message('send_up', [])
