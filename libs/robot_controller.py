@@ -63,8 +63,8 @@ class Snatch3r(object):
         self.left_motor.stop_action = stop_action
 
     def left(self, speed):
-        self.right_motor.run_forever(speed_sp=0)
-        self.left_motor.run_forever(speed_sp=speed)
+        self.right_motor.run_forever(speed_sp=speed)
+        self.left_motor.run_forever(speed_sp=0)
 
     def turn_right(self, degrees, speed, stop_action = "brake"): # speed needs to be negative
         distance = (degrees / 360) * 2 * math.pi * 5.75
@@ -75,8 +75,8 @@ class Snatch3r(object):
 
 
     def right_turn(self, speed):
-        self.right_motor.run_forever(speed_sp=speed)
-        self.left_motor.run_forever(speed_sp=0)
+        self.right_motor.run_forever(speed_sp=0)
+        self.left_motor.run_forever(speed_sp=speed)
 
     def arm_calibration(self):
 #
