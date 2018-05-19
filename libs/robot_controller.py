@@ -134,7 +134,7 @@ class Snatch3r(object):
                         elif option == 2:
                             self.turn_left(90, 600, "brake")
                         break
-
+#
             elif self.color_sensor.reflected_light_intensity > 10:
                 print('turning')
                 lspeed = 600
