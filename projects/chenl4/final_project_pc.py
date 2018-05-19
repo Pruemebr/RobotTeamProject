@@ -95,10 +95,6 @@ def pop_up_control_board():
     s_button.grid(row=5, column=0)
     s_button['command'] = (lambda: sing(mqtt_client))
 
-    if mqtt_client.send_message("conditions_for_meeting"):
-        mqtt_client.send_message("arm_up")
-        mqtt_client.send_message("found_it")
-
     control_board.mainloop()
 
 

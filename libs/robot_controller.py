@@ -29,6 +29,7 @@ class Snatch3r(object):
         self.list = []
         self.pixy = ev3.Sensor(driver_name='pixy-lego')
         self.ir_sensor = ev3.InfraredSensor()
+        self.running = True
 
         assert self.left_motor.connected
         assert self.right_motor.connected
@@ -200,7 +201,6 @@ class Snatch3r(object):
         #   This method is only useful if the only input to the robot is coming via mqtt.
         #   MQTT messages will still call methods, but no other input or output happens.
         # This method is given here since the concept might be confusing.
-        self.running = True
         while self.running:
             time.sleep(0.1)  # Do nothing (except receive MQTT messages) until an MQTT message calls shutdown.
 
