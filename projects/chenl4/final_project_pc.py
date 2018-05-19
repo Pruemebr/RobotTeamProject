@@ -150,8 +150,4 @@ def sing(mqtt_client):
     mqtt_client.send_message("sing")
 
 
-def find_red_object(mqtt_client):
-    mqtt_client.send_message("pick_up")
-
-
 main()

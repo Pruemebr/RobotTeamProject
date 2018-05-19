@@ -30,11 +30,13 @@ class Snatch3r(object):
         self.pixy = ev3.Sensor(driver_name='pixy-lego')
         self.ir_sensor = ev3.InfraredSensor()
 
-
         assert self.left_motor.connected
         assert self.right_motor.connected
         assert self.arm_motor.connected
         assert self.touch_sensor
+        assert self.color_sensor
+        assert self.pixy
+        assert self.ir_sensor
 
 
     def forward(self, inches, speed = 100, stop_action = "brake"):
