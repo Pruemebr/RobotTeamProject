@@ -203,6 +203,9 @@ class Snatch3r(object):
         # This method is given here since the concept might be confusing.
         while self.running:
             time.sleep(0.1)  # Do nothing (except receive MQTT messages) until an MQTT message calls shutdown.
+            if self.conditions_for_meeting() == True:
+                self.arm_up()
+                self.found_it()
 
     def shutdown(self):
         # Modify a variable that will allow the loop_forever method to end. Additionally stop motors and set LEDs green.
