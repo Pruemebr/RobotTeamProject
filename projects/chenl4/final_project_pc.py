@@ -1,11 +1,12 @@
 """
     This is the final csse120 project file, which is going to be using pc remotely driving
-    the robot and letting it pick up a red cap on the ground. The robot will use its camera
-    looking for a red color, infrared sensor judging distance between it self and the object,
-    and will use its arm picking up a red object, which in this case is purposefully set as
-    a red cap. When the robot detects the object and successfully picks it up, it will sing
-    a song, and its LED light will become red. After driving it to where the user wants the
-    cap to be placed, the robot will put down its arm and says "Mission Completed!"
+    the robot and letting it pick up a red cap on the ground. The robot will first use its
+    infrared sensor judging distance between it self and the object, then use camera looking
+    for a red color, and will finally use its arm picking up a red object, which in this case
+    is purposefully set as a red cap. When the robot detects the object and successfully picks
+    it up, it will sing a song, and its LED light will become red. After driving it to where
+    the user wants the cap to be placed, the robot will put down its arm and says "Mission
+    Completed!"
 
     Arthor: Lilin Chen
 """
