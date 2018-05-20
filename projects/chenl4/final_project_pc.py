@@ -3,7 +3,7 @@
     the robot and letting it pick up a red cap on the ground. The robot will use its camera
     looking for a red color, infrared sensor judging distance between it self and the object,
     and will use its arm picking up a red object, which in this case is purposefully set as
-    a red cap. When the robot detects the object and successfully picks it up, it will sings
+    a red cap. When the robot detects the object and successfully picks it up, it will sing
     a song, and its LED light will become red. After driving it to where the user wants the
     cap to be placed, the robot will put down its arm and says "Mission Completed!"
 
@@ -65,27 +65,22 @@ def pop_up_control_board():
     forward_button = ttk.Button(main_frame, text="Forward")
     forward_button.grid(row=2, column=1)
     forward_button['command'] = lambda: forward(mqtt_client, left_speed_entry, right_speed_entry)
-    control_board.bind('<Up>', lambda event: forward(mqtt_client, left_speed_entry, right_speed_entry))
 
     left_button = ttk.Button(main_frame, text="Left")
     left_button.grid(row=3, column=0)
     left_button['command'] = lambda: turn_left(mqtt_client, left_speed_entry, right_speed_entry)
-    control_board.bind('<Left>', lambda event: turn_left(mqtt_client, left_speed_entry, right_speed_entry))
 
     stop_button = ttk.Button(main_frame, text="Stop")
     stop_button.grid(row=3, column=1)
     stop_button['command'] = lambda: stop(mqtt_client)
-    control_board.bind('<space>', lambda event: stop(mqtt_client))
 
     right_button = ttk.Button(main_frame, text="Right")
     right_button.grid(row=3, column=2)
     right_button['command'] = lambda: turn_right(mqtt_client, left_speed_entry, right_speed_entry)
-    control_board.bind('<Right>', lambda event: turn_right(mqtt_client, left_speed_entry, right_speed_entry))
 
     back_button = ttk.Button(main_frame, text="Back")
     back_button.grid(row=4, column=1)
     back_button['command'] = lambda: backward(mqtt_client, left_speed_entry, right_speed_entry)
-    control_board.bind('<Down>', lambda event: backward(mqtt_client, left_speed_entry, right_speed_entry))
 
     q_button = ttk.Button(main_frame, text="Quit")
     q_button.grid(row=5, column=2)
