@@ -35,6 +35,7 @@ def main():
     # DONE: 2. Setup an mqtt_client.  Notice that since you don't need to receive any messages you do NOT need to have
     # a MyDelegate class.  Simply construct the MqttClient with no parameter in the constructor (easy).
     mqtt_client = com.MqttClient()
+    mqtt_client.connect_to_ev3()
 
     root = tkinter.Tk()
     root.title("MQTT Remote")
@@ -120,22 +121,20 @@ def send_forward(mqtt_client, l_spd_entry, r_spd_entry):
     print('move_forward')
     l_spd = int(l_spd_entry.get())
     r_spd = int(r_spd_entry.get())
-    mqtt_client.send_message("move_forward", [l_spd, r_spd])
+    mqtt_client.send_message("foreverforward", [l_spd, r_spd])
 
 
 def send_backward(mqtt_client, l_spd_entry, r_spd_entry):
     print('move_backward')
-    l_spd = -int(l_spd_entry.get())
-    r_spd = -int(r_spd_entry.get())
-    mqtt_client.send_message('move_backward', [l_spd, r_spd])
+    l_spd = int(l_spd_entry.get())
+    r_spd = int(r_spd_entry.get())
+    mqtt_client.send_message('backward', [l_spd, r_spd])
 
 
 def send_left(mqtt_client, l_spd_entry, r_spd_entry):
     print('turn_left')
     l_spd = int(l_spd_entry.get())
     r_spd = int(r_spd_entry.get())
-    if l_spd >= r_spd:
-        l_spd = -l_spd
     mqtt_client.send_message('turn_left', [l_spd, r_spd])
 
 
@@ -143,8 +142,6 @@ def send_right(mqtt_client, l_spd_entry, r_spd_entry):
     print('turn_right')
     l_spd = int(l_spd_entry.get())
     r_spd = int(r_spd_entry.get())
-    if r_spd >= l_spd:
-        r_spd = -r_spd
     mqtt_client.send_message('turn_right', [l_spd, r_spd])
 
 
