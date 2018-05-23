@@ -4,34 +4,33 @@ import time
 
 
 class Snatch3r(object):
-    """Commands for the Snatch3r robot that might be useful in many different programs."""
 
     def __init__(self):
         self.left_motor = ev3.LargeMotor(ev3.OUTPUT_B)
         self.right_motor = ev3.LargeMotor(ev3.OUTPUT_C)
         self.arm_motor = ev3.MediumMotor(ev3.OUTPUT_A)
-        self.touch_sensor = ev3.TouchSensor()
+        self.touch_sensor = ev3.TouchSensor
+        self.Leds = ev3.Leds
+        self.infrared_sensor = ev3.InfraredSensor()
         self.running = True
 
         assert self.left_motor.connected
         assert self.right_motor.connected
         assert self.arm_motor.connected
+        assert self.infrared_sensor
         assert self.touch_sensor
 
-    def forward(self, inches, speed, stop_action="brake"):
-        deg = (inches / (1.3 * 3.14159)) * (2 * 3.14159) * (
-                    180 / 3.14159)  # number of revolutions * 2pi rad/rev * 180 deg/pi rad
-        self.left_motor.run_to_rel_pos(speed_sp=speed * 8)
-        self.right_motor.run_to_rel_pos(speed_sp=speed * 8)
-        self.left_motor.run_to_rel_pos(position_sp=deg)
-        self.right_motor.run_to_rel_pos(position_sp=deg)
-
-        self.left_motor.wait_while('running')
-        self.right_motor.wait_while('running')
-
-    def foreverforward(self, left_motor_speed, right_motor_speed):
+    def forward(self, left_motor_speed, right_motor_speed):
         self.left_motor.run_forever(speed_sp=left_motor_speed)
         self.right_motor.run_forever(speed_sp=right_motor_speed)
+        proximity = self.infrared_sensor.proximity
+        if proximity < 70:
+            self.Leds.set_color(self.Leds.LEFT, self.Leds.YELLOW)
+            self.Leds.set_color(self.Leds.RIGHT, self.Leds.YELLOW)
+        if proximity < 40:
+            self.stop()
+            self.Leds.set_color(self.Leds.LEFT, self.Leds.RED)
+            self.Leds.set_color(self.Leds.RIGHT, self.Leds.RED)
 
     def backward(self, left_motor_speed, right_motor_speed):
         self.left_motor.run_forever(speed_sp=-left_motor_speed)
@@ -46,54 +45,10 @@ class Snatch3r(object):
         self.right_motor.run_forever(speed_sp=-right_motor_speed)
 
     def stop(self):
-        self.left_motor.stop_action = "brake"
-        self.right_motor.stop_action = "brake"
         self.left_motor.stop()
         self.right_motor.stop()
-
-    def arm_calibration(self):
-
-        self.arm_motor.run_forever(speed_sp=400)
-        while self.touch_sensor.is_pressed == 0:
-            time.sleep(0.01)
-        self.arm_motor.stop(stop_action="brake")
-        ev3.Sound.beep()
-
-        arm_revolutions_for_full_range = 14.2
-        deg = (arm_revolutions_for_full_range / (1.3 * 3.14159)) * (2 * 3.14159) * (180 / 3.14159)
-        self.arm_motor.run_to_rel_pos(speed_sp=400)
-        self.arm_motor.run_to_rel_pos(position_sp=-deg)
-
-        time.sleep(8)
-        ev3.Sound.beep()
-
-        self.arm_motor.wait_while(ev3.Motor.STATE_STALLED)
-
-        self.arm_motor.position = 0  # Calibrate the down position as 0 (this line is correct as is).
-
-    def arm_up(self):
-
-        arm_revolutions_for_full_range = 14.2
-        deg = (arm_revolutions_for_full_range / (1.3 * 3.14159)) * (2 * 3.14159) * (
-                    180 / 3.14159)  # Not sure if correct
-
-        self.arm_motor.run_to_rel_pos(speed_sp=800)
-        self.arm_motor.run_to_rel_pos(position_sp=-deg)
-        ev3.Sound.beep()
-        time.sleep(.1)
-        self.arm_motor.wait_while(ev3.Motor.STATE_RUNNING)  # Blocks until the motor finishes running
-
-    def arm_down(self):
-
-        arm_revolutions_for_full_range = 14.2
-        deg = (arm_revolutions_for_full_range / (1.3 * 3.14159)) * (2 * 3.14159) * (
-                180 / 3.14159)  # Not sure if correct
-
-        self.arm_motor.run_to_rel_pos(speed_sp=800)
-        self.arm_motor.run_to_rel_pos(position_sp=-deg)
-        ev3.Sound.beep()
-        time.sleep(.1)
-        self.arm_motor.wait_while(ev3.Motor.STATE_RUNNING)  # Blocks until the motor finishes running
+        self.Leds.set_color(self.Leds.LEFT, self.Leds.BLACK)
+        self.Leds.set_color(self.Leds.RIGHT, self.Leds.BLACK)
 
     def loop_forever(self):
         # This is a convenience method that I don't really recommend for most programs other than m5.
@@ -108,18 +63,31 @@ class Snatch3r(object):
         # Modify a variable that will allow the loop_forever method to end. Additionally stop motors and set LEDs green.
         # The most important part of this method is given here, but you should add a bit more to stop motors, etc.
         self.running = False
-        while self.running:
-            self.left_motor.stop()
-            self.right_motor.stop()
+        self.right_motor.stop()
+        self.left_motor.stop()
+
+    def arm_up(self):
+        deg = 10 * 360
+        self.arm_motor.run_to_rel_pos(speed_sp=800)
+        self.arm_motor.run_to_rel_pos(position_sp=deg)
+        self.arm_motor.wait_while(self.arm_motor.STATE_RUNNING)
+        self.arm_motor.stop()
+
+    def arm_down(self):
+
+        deg = 10 * 360
+
+        self.arm_motor.run_to_rel_pos(speed_sp=800)
+        self.arm_motor.run_to_rel_pos(position_sp=-deg)
+        self.arm_motor.wait_while(self.arm_motor.STATE_RUNNING)
+        self.arm_motor.stop()
 
 
 def main():
     robot = Snatch3r()
     mqtt_client = com.MqttClient(robot)
     mqtt_client.connect_to_pc()
-    # mqtt_client.connect_to_pc("35.194.247.175")  # Off campus IP address of a GCP broker
-
-    robot.loop_forever()  # Calls a function that has a while True: loop within it to avoid letting the program end.
+    time.sleep(0.1)
 
 
 main()
