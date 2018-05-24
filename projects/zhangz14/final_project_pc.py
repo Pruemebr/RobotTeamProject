@@ -1,3 +1,9 @@
+# This project is meant to prevent the robot from knocking into obstacles in the front. When the distance from the robot
+# to the obstacle is less than 50 cm, the LEDs will be yellow. When the distance is less than 20 cm, the LEDs will be
+# red and the robot cannot move forward. The user can get the distance by clicking a button on the Tkinter GUI.
+
+# Author: Zikang Zhang
+
 import tkinter
 from tkinter import ttk
 
@@ -37,37 +43,26 @@ def main():
     forward_button = ttk.Button(main_frame, text="Forward")
     forward_button.grid(row=2, column=1)
     forward_button['command'] = lambda: send_forward(mqtt_client, left_speed_entry, right_speed_entry)
-    root.bind('<Up>', lambda event: send_forward(mqtt_client, left_speed_entry, right_speed_entry))
 
     left_button = ttk.Button(main_frame, text="Left")
     left_button.grid(row=3, column=0)
     left_button['command'] = lambda: send_left(mqtt_client, left_speed_entry, right_speed_entry)
-    root.bind('<Left>', lambda event: send_left(mqtt_client, left_speed_entry, right_speed_entry))
 
     stop_button = ttk.Button(main_frame, text="Stop")
     stop_button.grid(row=3, column=1)
     stop_button['command'] = lambda: send_stop(mqtt_client)
-    root.bind('<space>', lambda event: send_stop(mqtt_client))
 
     right_button = ttk.Button(main_frame, text="Right")
     right_button.grid(row=3, column=2)
     right_button['command'] = lambda: send_right(mqtt_client, left_speed_entry, right_speed_entry)
-    root.bind('<Right>', lambda event: send_right(mqtt_client, left_speed_entry, right_speed_entry))
-
-    up_button = ttk.Button(main_frame, text="Up")
-    up_button.grid(row=5, column=0)
-    up_button['command'] = lambda: send_up(mqtt_client)
-    root.bind('<u>', lambda event: send_up(mqtt_client))
-
-    down_button = ttk.Button(main_frame, text="Down")
-    down_button.grid(row=6, column=0)
-    down_button['command'] = lambda: send_down(mqtt_client)
-    root.bind('<j>', lambda event: send_down(mqtt_client))
 
     back_button = ttk.Button(main_frame, text="Back")
     back_button.grid(row=4, column=1)
     back_button['command'] = lambda: send_backward(mqtt_client, left_speed_entry, right_speed_entry)
-    root.bind('<Down>', lambda event: send_backward(mqtt_client, left_speed_entry, right_speed_entry))
+
+    d_button = ttk.Button(main_frame, text="Distance")
+    d_button.grid(row=5, column=0)
+    d_button['command'] = lambda: send_measure_distance(mqtt_client)
 
     e_button = ttk.Button(main_frame, text="Exit")
     e_button.grid(row=5, column=2)
@@ -105,19 +100,14 @@ def send_right(mqtt_client, l_spd_entry, r_spd_entry):
     mqtt_client.send_message('turn_right', [l_spd, r_spd])
 
 
-def send_up(mqtt_client):
-    print("arm_up")
-    mqtt_client.send_message("arm_up")
-
-
-def send_down(mqtt_client):
-    print("arm_down")
-    mqtt_client.send_message("arm_down")
-
-
 def send_stop(mqtt_client):
     print('stop')
     mqtt_client.send_message('stop')
+
+
+def send_measure_distance(mqtt_client):
+    print('measure_distance')
+    print('The distance to the obstacle in the front is:', mqtt_client.send_message('distance'), "cm.")
 
 
 # Exit button callbacks:
