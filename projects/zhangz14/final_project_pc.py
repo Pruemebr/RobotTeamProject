@@ -107,7 +107,7 @@ def send_stop(mqtt_client):
 
 def send_measure_distance(mqtt_client):
     print('measure_distance')
-    print('The distance to the obstacle in the front is:', mqtt_client.send_message('distance'), "cm.")
+    mqtt_client.send_message('distance')
 
 
 # Exit button callbacks:
